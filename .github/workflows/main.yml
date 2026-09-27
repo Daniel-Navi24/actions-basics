@@ -1,0 +1,40 @@
+name: hello world
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run echo
+        run: echo "Hello, world!"
+
+      - name: Show system info
+        run: |
+          echo "Runner OS: $RUNNER_OS"
+          echo "Current time: $(date)"
+          echo "Python version: $(python3 --version)"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Python test
+        run: |
+          python3 -c "print('Python is working in CI!')"
+          python3 -c "assert 2 + 2 == 4; print('Math test passed')"
+
+      - name: Final success message
+        run: echo "Workflow completed successfully!"
